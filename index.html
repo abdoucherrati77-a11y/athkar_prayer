@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أذكار ومواقيت الصلاة</title>
+
+    <style>
+        body {
+            font-family: "Tahoma", "Arial", sans-serif;
+            direction: rtl;
+            margin: 0;
+            background: #fdf6e3;
+            color: #333;
+            font-variant-numeric: normal;
+        }
+
+        header {
+            background: #2e7d32;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        #dateTime {
+            font-size: 18px;
+            margin-top: 5px;
+            color: #fff8dc;
+        }
+
+        main {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #2e7d32;
+        }
+
+        ul {
+            list-style: none;
+            padding-right: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #2e7d32;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #1b4d1b;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: #eee;
+            margin-top: 30px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🕌 أذكار ومواقيت الصلاة</h1>
+    <div id="dateTime"></div>
+</header>
+
+<main>
+
+    <section class="card">
+        <h2>مواقيت الصلاة</h2>
+        <ul id="prayerTimes"></ul>
+    </section>
+
+    <section class="card">
+        <h2>أذكار الصباح والمساء</h2>
+        <ul id="athkar"></ul>
+        <button id="addAthkarBtn">أضف ذكر</button>
+    </section>
+
+</main>
+
+<footer>
+    <p>تم إنشاء الموقع لتسهيل الأذكار ومواقيت الصلاة</p>
+</footer>
+
+<script>
+    // التاريخ والوقت بأرقام عربية
+    function updateDateTime() {
+        const now = new Date();
+
+        const dateStr = now.toLocaleDateString(
+            'ar-EG-u-nu-arab',
+            { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
+        );
+
+        const timeStr = now.toLocaleTimeString('ar-EG-u-nu-arab');
+
+        document.getElementById('dateTime').textContent =
+            `${dateStr} - ${timeStr}`;
+    }
+
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
+
+    // مواقيت الصلاة (أرقام عربية)
+    const prayerTimes = {
+        "الفجر": "٠٥:٣٠",
+        "الشروق": "٠٦:٥٥",
+        "الظهر": "١٢:٣٠",
+        "العصر": "١٥:٤٥",
+        "المغرب": "١٨:١٠",
+        "العشاء": "١٩:٣٠"
+    };
+
+    const prayerList = document.getElementById("prayerTimes");
+
+    for (let name in prayerTimes) {
+        const li = document.createElement("li");
+        li.textContent = `${name} : ${prayerTimes[name]}`;
+        prayerList.appendChild(li);
+    }
+
+    // الأذكار
+    let athkar = [
+        "أصبحنا وأصبح الملك لله",
+        "اللهم بك أصبحنا وبك أمسينا",
+        "سبحان الله وبحمده",
+        "لا إله إلا الله وحده لا شريك له",
+        "رضيت بالله ربا",
+        "رضيت بالإسلام دينا",
+        "رضيت بمحمد ﷺ نبيا"
+    ];
+
+    const athkarList = document.getElementById("athkar");
+
+    function renderAthkar() {
+        athkarList.innerHTML = "";
+        athkar.forEach(text => {
+            const li = document.createElement("li");
+            li.textContent = text;
+            athkarList.appendChild(li);
+        });
+    }
+
+    renderAthkar();
+
+    document.getElementById("addAthkarBtn").addEventListener("click", () => {
+        const newAthkar = prompt("اكتب الذكر الجديد:");
+        if (newAthkar) {
+            athkar.push(newAthkar);
+            renderAthkar();
+        }
+    });
+</script>
+
+</body>
+</html>
